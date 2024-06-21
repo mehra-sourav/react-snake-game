@@ -1,4 +1,5 @@
 export const BOARD_SIZE = 15;
+export const SNAKE_RATE_OF_CHANGE = 200;
 export const KEY_DIRECTION_MAP = {
   37: "LEFT",
   38: "UP",

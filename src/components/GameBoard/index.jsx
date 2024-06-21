@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { KEY_DIRECTION_MAP, OPPOSITE_DIRECTION_MAP } from "@/constants";
+import {
+  KEY_DIRECTION_MAP,
+  OPPOSITE_DIRECTION_MAP,
+  SNAKE_RATE_OF_CHANGE,
+} from "@/constants";
 import {
   GameBoardContainer,
   SnakeSegment,
@@ -17,6 +21,12 @@ const GameBoard = () => {
     return () => window.removeEventListener("keydown", changeSnakeDirection);
   }, [snakeDirection]);
 
+  // Side effect for moving snake
+  useEffect(() => {
+    const interval = setInterval(moveSnake, SNAKE_RATE_OF_CHANGE);
+    return () => clearInterval(interval);
+  }, [snakeDirection]);
+
   const changeSnakeDirection = (event) => {
     const newDirection = KEY_DIRECTION_MAP[event.keyCode];
     if (
@@ -27,9 +37,32 @@ const GameBoard = () => {
     }
   };
 
+  const moveSnake = () => {
+    setSnakePosition((prevSnake) => {
+      const newHead = { ...prevSnake[0] };
+      switch (snakeDirection) {
+        case "RIGHT":
+          newHead.x += 1;
+          break;
+        case "LEFT":
+          newHead.x -= 1;
+          break;
+        case "DOWN":
+          newHead.y += 1;
+          break;
+        case "UP":
+          newHead.y -= 1;
+          break;
+        default:
+          break;
+      }
+
+      return [newHead, ...prevSnake.slice(0, -1)];
+    });
+  };
+
   return (
     <GameBoardContainer>
-      {snakeDirection}
       {snakePosition.map((segment, index) => (
         <SnakeSegment
           key={index}
