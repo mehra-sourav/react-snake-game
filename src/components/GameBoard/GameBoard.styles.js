@@ -12,9 +12,7 @@ export const GameBoardContainer = styled.div`
 
 export const SnakeSegment = styled.div`
   background-color: green;
-  " .terminal": {
-    border-radius: 40%;
-  }
+  border: 1px solid black;
 `;
 
 export const FoodPellet = styled.div`

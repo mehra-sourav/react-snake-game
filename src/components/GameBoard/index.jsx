@@ -3,6 +3,7 @@ import {
   KEY_DIRECTION_MAP,
   OPPOSITE_DIRECTION_MAP,
   SNAKE_RATE_OF_CHANGE,
+  BOARD_SIZE,
 } from "@/constants";
 import {
   GameBoardContainer,
@@ -57,8 +58,30 @@ const GameBoard = () => {
           break;
       }
 
+      const isFoodEatem = isSnakeOnFood(newHead);
+
+      if (isFoodEatem) {
+        let newFoodPosition = generateFoodPosition();
+        setFoodPosition(newFoodPosition);
+        return [newHead, ...prevSnake];
+      }
+
       return [newHead, ...prevSnake.slice(0, -1)];
     });
+  };
+
+  //   Checks if snake's head is on the same coordinates as food
+  const isSnakeOnFood = (head) => {
+    return head.x === foodPosition.x && head.y === foodPosition.y;
+  };
+
+  // Generates random food coordinates within the board
+  const generateFoodPosition = () => {
+    const newFoodPosition = {
+      x: Math.floor(Math.random() * BOARD_SIZE) + 1,
+      y: Math.floor(Math.random() * BOARD_SIZE) + 1,
+    };
+    return newFoodPosition;
   };
 
   return (
