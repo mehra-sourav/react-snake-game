@@ -1,8 +1,8 @@
-import Gameboard from "@/components/GameBoard";
+import GameBoard from "@/components/GameBoard";
 import "./App.css";
 
 function App() {
-  return <Gameboard />;
+  return <GameBoard />;
 }
 
 export default App;

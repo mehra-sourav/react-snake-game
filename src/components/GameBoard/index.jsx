@@ -1,7 +1,7 @@
-import React from "react";
+import { GameBoardContainer } from "./GameBoard.styles";
 
-const Gameboard = () => {
-  return <div>Gameboard</div>;
+const GameBoard = () => {
+  return <GameBoardContainer></GameBoardContainer>;
 };
 
-export default Gameboard;
+export default GameBoard;
