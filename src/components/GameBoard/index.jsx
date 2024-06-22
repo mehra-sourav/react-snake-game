@@ -12,7 +12,10 @@ import {
 } from "./GameBoard.styles";
 
 const GameBoard = () => {
-  const [snakePosition, setSnakePosition] = useState([{ x: 2, y: 2 }]); // Initial snake position
+  const [snakePosition, setSnakePosition] = useState([
+    { x: 2, y: 2 },
+    { x: 3, y: 2 },
+  ]); // Initial snake position
   const [foodPosition, setFoodPosition] = useState({ x: 5, y: 5 }); // Initial food pellet position
   const [snakeDirection, setSnakeDirection] = useState("RIGHT"); // Initial snake direction
 
