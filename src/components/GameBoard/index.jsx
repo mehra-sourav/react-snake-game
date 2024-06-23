@@ -4,6 +4,8 @@ import {
   OPPOSITE_DIRECTION_MAP,
   SNAKE_RATE_OF_CHANGE,
   BOARD_SIZE,
+  INITIAL_SNAKE_POSITION,
+  INITIAL_FOOD_PELLET_POSITION,
 } from "@/constants";
 import {
   GameBoardContainer,
@@ -11,13 +13,13 @@ import {
   FoodPellet,
 } from "./GameBoard.styles";
 
-const GameBoard = () => {
-  const [snakePosition, setSnakePosition] = useState([
-    { x: 3, y: 2 },
-    { x: 2, y: 2 },
-  ]); // Initial snake position
-  const [foodPosition, setFoodPosition] = useState({ x: 5, y: 5 }); // Initial food pellet position
+const GameBoard = ({ updateLeaderBoard }) => {
+  const [snakePosition, setSnakePosition] = useState(INITIAL_SNAKE_POSITION); // Initial snake position
+  const [foodPosition, setFoodPosition] = useState(
+    INITIAL_FOOD_PELLET_POSITION
+  ); // Initial food pellet position
   const [snakeDirection, setSnakeDirection] = useState("RIGHT"); // Initial snake direction
+  const scoreRef = useRef(0); // Initial score
   const snakeMoveIntervalRef = useRef(null);
 
   // Side effect for changing snake direction
@@ -31,7 +33,7 @@ const GameBoard = () => {
     const interval = setInterval(moveSnake, SNAKE_RATE_OF_CHANGE);
     snakeMoveIntervalRef.current = interval;
     return () => clearInterval(interval);
-  }, [snakeDirection, snakePosition]);
+  }, [snakePosition]);
 
   const changeSnakeDirection = (event) => {
     const newDirection = KEY_DIRECTION_MAP[event.keyCode];
@@ -58,6 +60,7 @@ const GameBoard = () => {
         const isFoodEaten = isSnakeOnFood(newHead);
 
         if (isFoodEaten) {
+          scoreRef.current += 1;
           let newFoodPosition = generateFoodPosition();
           setFoodPosition(newFoodPosition);
           return [newHead, ...snakePosition];
@@ -68,7 +71,15 @@ const GameBoard = () => {
     }
     // Game over
     else {
+      let playerName = null;
+
+      while (!playerName) {
+        playerName = prompt("Game Over!!!\nEnter your name", "Player1");
+      }
+
+      updateLeaderBoard(playerName, scoreRef.current);
       clearInterval(snakeMoveIntervalRef.current);
+      restartGame();
     }
   };
 
@@ -123,6 +134,13 @@ const GameBoard = () => {
     return snakeBodyPosition.some(
       ({ x: bodyX, y: bodyY }) => bodyX === x && bodyY === y
     );
+  };
+
+  const restartGame = () => {
+    setSnakePosition(INITIAL_SNAKE_POSITION);
+    setFoodPosition(INITIAL_FOOD_PELLET_POSITION);
+    setSnakeDirection("RIGHT");
+    scoreRef.current = 0;
   };
 
   return (
