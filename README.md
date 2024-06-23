@@ -2,6 +2,8 @@
 
 This is a snake game made using React.
 
+**Deployed at https://sssnake-game.netlify.app**
+
 ## Installation
 1. Clone the repo `git clone https://github.com/your-username/snake-game.git`
 2. Install dependencies `npm install`
