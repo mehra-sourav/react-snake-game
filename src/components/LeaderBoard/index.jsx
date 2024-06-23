@@ -20,7 +20,7 @@ const LeaderBoard = ({ leaderBoardData }) => {
               <td>Score</td>
             </tr>
 
-            {leaderBoardData.map((score, index) => (
+            {leaderBoardData.slice(0, 10).map((score, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{score.name}</td>
